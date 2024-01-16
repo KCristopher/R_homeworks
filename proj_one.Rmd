@@ -1,0 +1,110 @@
+
+
+
+
+
+```{r}
+library(dplyr)
+library(readxl)
+library(tidyr)
+library(moments)
+```
+
+```{r}
+df <- readxl::read_excel("Zad_domowe_nr_1_2023_2024_KCh.xlsx")
+```
+
+```{r}
+head(df,5)
+```
+
+```{r}
+glimpse(df)
+```
+
+```{r}
+df %>%
+  summarize(
+    srednia_masa = mean(Masa_ptaka),
+    wariancja_masy = var(Masa_ptaka) * (nrow(df) - 1) * (1 / nrow(df)),
+    odch_stand_masy = sd(Masa_ptaka) * (nrow(df) - 1) * (1 / nrow(df)),
+    pierw_kwart_masy = quantile(Masa_ptaka, 0.25),
+    mediana_masy = quantile(Masa_ptaka, 0.5), 
+    trz_kwart_masy = quantile(Masa_ptaka, 0.75)
+  )
+
+
+```
+
+```{r}
+calc_skewness_coeff <- function(numbers) {
+  
+  xbar <- mean(numbers)
+  n <- length(numbers)
+  stand_dev <- sd(numbers) * (n - 1) / n
+  num <- (1 / n) * sum((numbers - xbar) ^ 3)
+  denom <- stand_dev ^ 3
+  skew <- num / denom
+  
+  return(skew)
+}
+```
+
+```{r}
+quartile_coeff_of_dispersion <- function(numbers) {
+  
+  first.quart <- quantile(numbers, 0.25, names = FALSE)
+  third.quart <- quantile(numbers, 0.75, names = FALSE)
+  
+  numerator = third.quart - first.quart
+  denominator = third.quart + first.quart
+  
+  quartile.dispersion = numerator / denominator
+  
+  return(quartile.dispersion)
+}
+```
+
+```{r}
+quartile_coeff_of_dispersion(df$Masa_ptaka)
+```
+
+```{r}
+?quantile
+```
+
+```{r}
+```
+
+
+
+
+```{r}
+
+df %>%
+  summarize(
+    rozstep_miedzykwartylowy = IQR(Masa_ptaka), 
+    odch_cwiartkowe = IQR(Masa_ptaka) / 2,
+    skosnosc = skewness(Masa_ptaka),
+    pozycyjna_skosnosc = quartile_coeff_of_dispersion(Masa_ptaka)
+    
+  )
+```
+
+```{r}
+calc_skewness_coeff(df$Masa_ptaka)
+```
+
+```{r}
+skewness(df$Masa_ptaka)
+```
+
+```{r}
+boxplot(df$Masa_ptaka, range = 0)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
