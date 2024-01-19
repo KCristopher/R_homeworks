@@ -1,0 +1,70 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+Zadanie 1
+```{r}
+set.seed(123)
+runif(1, 1, 29)
+```
+Zadanie 2
+```{r}
+df <- 9
+
+x <- seq(-5, 5, by = 0.005)
+options(repr.plot.width=14, repr.plot.height=8)
+plot(dt(x, df), main = "Funkcja gęstości rozkładu Studenta", xlab = "x", ylab = "Gęstość", col = "blue", lwd = 2)
+lines(pt(x, df, lower.tail = TRUE), col = "red", lwd = 2)
+lines(pt(x, df, lower.tail = FALSE), col = "red", lwd = 2)
+legend("topright", legend = c("Funkcja gęstości", "Dystrybuanta"), col = c("blue", "red"), lwd = 2)
+```
+Zadanie 3
+
+```{r}
+set.seed(123)
+liczby <- rt(100, df)
+options(repr.plot.width=16, repr.plot.height=9)
+qqnorm(liczby)
+qqline(liczby, col = "red")
+legend("bottomright", legend = c("Linia idealnego dopasowania kwantyli empirycznych i teoretycznych"), col = c("red"), lwd = 2)
+```
+Wylosowane dane nie podlegają rozkładowi normalnemu, ponieważ kwantyle zaoberwowane w danych odbiegają znacząco od odpowiednich kwantyli rozkładu normalnego.
+```{r}
+?qqnorm
+```
+
+Zadanie 4
+```{r}
+set.seed(123)
+dwie.liczby <- runif(2, min = -3, max = 3)
+dwie.liczby
+```
+```{r}
+a <- dwie.liczby[1]
+b <- dwie.liczby[2]
+a
+```
+
+
+```{r}
+probability_student <- pt(b, df = df) - pt(a, df = df)
+
+
+probability_normal <- pnorm(b) - pnorm(a)
+
+cat("a) Prawdopodobieństwo w rozkładzie Studenta:", probability_student, "\n")
+cat("b) Prawdopodobieństwo w standardowym rozkładzie normalnym:", probability_normal, "\n")
+```
+
+```{r}
+?pnorm
+```
+
