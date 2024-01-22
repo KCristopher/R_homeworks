@@ -27,9 +27,37 @@ for (df in deg.freed){
 }
 
 ```
+Zadanie 7
+```{r}
+kolory <- c("grey", "green", "brown", "violet")
+stop.swob <- c(1, 5, 25, 125)
+
+mapply(function(s, col) {
+  options(repr.plot.width=14, repr.plot.height=9)
+  curve(df(x,df1=4, df2=s), xlim = c(0, 10), col = col, add = TRUE, ylab = "Gęstość", main = "Rozkład F Snedecora dla df1=4 i różnych df2")
+  legend("topright", legend = c("df2=6","df2=11", "df2=16", "df2=21"), col = c("grey", "green", "brown", "violet"), lwd = 2)
+}, stop.swob , kolory)
+```
 
 ```{r}
 
-```
 
+for (s in stop.swob) {
+  percentile.value <- stats::qf(0.95, df1 = 1, df2 = s)
+  cdf <- stats::pf(percentile.value, df1 = 1, df2 = s)
+
+  percentiles.text <- sprintf("95 percentyl dla rozkładu F Snedecora, df1=4, df2=%d wynosi %.3f, a zatem 5 proc. wartości jest na prawo od %.3f, a dystrybuanta w pkt odpowiadającym wartości kwantyla wynosi oczywiście %.2f", s, percentile.value, percentile.value, cdf)
+
+  cat(percentiles.text, "\n")
+}
+
+```
+```{r}
+?rchisq
+```
+Zadanie 8
+```{r}
+set.seed(123)
+two.nums.chi <- runif(2, min = -3, max = 3)
+```
 
