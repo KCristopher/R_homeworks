@@ -1,0 +1,35 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Zadanie 6 C.D.
+..następnie wyznaczyć wartości kwantyli 
+odcinających prawostronne zbiory wartości zmiennej losowej tak, aby wyznaczone przez te 
+zbiory pola pod wykresami były równe 0,05. Dla rozkładów o danej liczby stopni swobody, 
+proszę obliczyć wartości dystrybuanty rozkładu w punkcie równym wartości wspomnianego 
+kwantyla.
+
+Znależć pole 0,05 z prawej strony wykresu, to znależć 95 percentyl.
+
+
+```{r}
+deg.freed <- c(5, 10, 15, 20)
+
+for (df in deg.freed){
+  
+   percentile.value <- qchisq(.95, df=df)
+   cdf <- pchisq(percentile.value, df=df)
+  
+   percentiles.text <- sprintf("95 percentyl dla rozkładu Chi2, df=%d wynosi %.3f, a zatem 5 proc. wartości jest na prawo od %.3f, a dystrybuanta w pkt odpowiadającym wartości kwantyla wynosi oczywiście %.2f", df, percentile.value, percentile.value, cdf)
+  
+  cat(percentiles.text, "\n")
+  
+}
+
+```
+
+```{r}
+
+```
+
+
