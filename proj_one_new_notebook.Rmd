@@ -1,0 +1,145 @@
+---
+title: "R Notebook"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(dplyr)
+library(readxl)
+library(tidyr)
+library(moments)
+```
+
+```{r}
+df <- readxl::read_excel("Zad_domowe_nr_1_2023_2024_KCh.xlsx")
+```
+
+
+```{r}
+head(df,5)
+```
+
+```{r}
+glimpse(df)
+```
+
+```{r}
+df %>%
+  summarize(
+    srednia_masa = mean(Masa_ptaka),
+    wariancja_masy = var(Masa_ptaka) * (nrow(df) - 1) * (1 / nrow(df)),
+    odch_stand_masy = sd(Masa_ptaka) * (nrow(df) - 1) * (1 / nrow(df)),
+    pierw_kwart_masy = quantile(Masa_ptaka, 0.25),
+    mediana_masy = quantile(Masa_ptaka, 0.5), 
+    trz_kwart_masy = quantile(Masa_ptaka, 0.75) )
+```
+
+
+```{r}
+calc_skewness_coeff <- function(numbers) {
+  
+  xbar <- mean(numbers)
+  n <- length(numbers)
+  stand_dev <- sd(numbers) * (n - 1) / n
+  num <- (1 / n) * sum((numbers - xbar) ^ 3)
+  denom <- stand_dev ^ 3
+  skew <- num / denom
+  
+  return(skew)
+}
+```
+
+
+```{r}
+quartile_coeff_of_dispersion <- function(numbers) {
+  
+  first.quart <- quantile(numbers, 0.25, names = FALSE)
+  third.quart <- quantile(numbers, 0.75, names = FALSE)
+  
+  numerator = third.quart - first.quart
+  denominator = third.quart + first.quart
+  
+  quartile.dispersion = numerator / denominator
+  
+  return(quartile.dispersion)
+}
+```
+
+```{r}
+quartile_coeff_of_dispersion(df$Masa_ptaka)
+```
+
+```{r}
+df %>%
+  summarize(
+    rozstep_miedzykwartylowy = IQR(Masa_ptaka), 
+    odch_cwiartkowe = IQR(Masa_ptaka) / 2,
+    skosnosc = skewness(Masa_ptaka),
+    pozycyjna_skosnosc = quartile_coeff_of_dispersion(Masa_ptaka),
+    kurtoza=kurtosis(Masa_ptaka)
+    
+  )
+```
+
+```{r}
+calc_skewness_coeff(df$Masa_ptaka)
+```
+
+```{r}
+skewness(df$Masa_ptaka)
+```
+
+```{r}
+boxplot(df$Masa_ptaka, range = 0, main = "Rozkład mas ptaków", ylab = 'Masa ptaka - funty')
+```
+Brak obserwacji odstających.
+Rozkład jest z grubsza symetryczny więc zarówno klasyczne jak i pozycyjne miary mogą dać pożyteczne informacje.
+```{r}
+
+```
+
+```{r}
+max(df$Masa_ptaka)
+```
+
+```{r}
+min(df$Masa_ptaka)
+```
+
+```{r}
+hist(df$Masa_ptaka, main = "Rozkład mas ptaków", xlab = 'Masa ptaka - funty', ylab="Częstość")
+```
+
+```{r}
+qqnorm(df$Masa_ptaka, col = "blue", xlab = "Kwantyle teoretyczne", ylab = "Kwantyle empiryczne", main='Wykres kwantyl-kwantyl')
+qqline(df$Masa_ptaka, col = "red", lty = 2)
+legend("topleft", legend = "Linia idealnego dopasowania kwantyli", col = "red", lty = 2)
+
+```
+Wykres pokazuje, że rozkład masy ptaków odbiega od rozkładu normalnego.
+Można by porównać kwantyle empiryczne z kwantylami teoretycznymi innego rozkładu.
+
+
+```{r}
+
+```
+
+
+```{r}
+shapiro.test(df$Masa_ptaka)
+```
+
+Na poziomie istotności 0.05 nie ma podstaw do odrzucenia hipotezy zerowej, że rozkład mas ptaków jest rozkładem normalnym.
+```{r}
+```{r}
+
+```
+
+```
+
