@@ -56,8 +56,62 @@ for (s in stop.swob) {
 ?rchisq
 ```
 Zadanie 8
+
+Dla chi2, df=5
 ```{r}
 set.seed(123)
-two.nums.chi <- runif(2, min = -3, max = 3)
+two.nums.chi <- rchisq(n = 2, df = 5)
+two.nums.chi
+```
+
+
+```{r}
+x = two.nums.chi[1]
+y = two.nums.chi[2]
+```
+
+
+
+```{r}
+x
+```
+
+```{r}
+
+```
+
+```{r}
+# dla studenta użyto stopni swobody z zadania 1/2
+probability_student <- pt(y, df = 9) - pt(x, df = 9)
+
+
+probability_normal <- pnorm(y) - pnorm(x)
+
+cat("a) Prawdopodobieństwo w rozkładzie Studenta, df=9:", probability_student, "\n")
+cat("b) Prawdopodobieństwo w standardowym rozkładzie normalnym:", probability_normal, "\n")
+```
+Dla F Snedecora df1 = 4, df2 = 11
+```{r}
+two.nums.snede <- rf(2, df1 = 4, df2 = 11)
+two.nums.snede
+```
+
+```{r}
+u = two.nums.snede[1]
+v = two.nums.snede[2]
+```
+
+```{r}
+# dla studenta użyto stopni swobody z zadania 1/2
+probab_student <- pt(v, df = 9) - pt(u, df = 9)
+
+probab_normal <- pnorm(v) - pnorm(u)
+
+cat("a) Prawdopodobieństwo w rozkładzie Studenta, df=9:", probab_student, "\n")
+cat("b) Prawdopodobieństwo w standardowym rozkładzie normalnym:", probab_normal, "\n")
+```
+
+```{r}
+
 ```
 
