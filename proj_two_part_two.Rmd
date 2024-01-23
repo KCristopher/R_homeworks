@@ -33,9 +33,9 @@ kolory <- c("grey", "green", "brown", "violet")
 stop.swob <- c(1, 5, 25, 125)
 
 mapply(function(s, col) {
-  options(repr.plot.width=14, repr.plot.height=9)
-  curve(df(x,df1=4, df2=s), xlim = c(0, 10), col = col, add = TRUE, ylab = "Gęstość", main = "Rozkład F Snedecora dla df1=4 i różnych df2")
-  legend("topright", legend = c("df2=6","df2=11", "df2=16", "df2=21"), col = c("grey", "green", "brown", "violet"), lwd = 2)
+  options(repr.plot.width=16, repr.plot.height=9)
+  curve(df(x,df1=4, df2=s), xlim = c(0, 10), col = col, add = TRUE, ylab = "Gęstość", main = "Rozkład F Snedecora dla df1=4 i różnych df2",lwd=4)
+  legend("topright", legend = c("df2=6","df2=11", "df2=16", "df2=21"), col = c("grey", "green", "brown", "violet"), lwd = 3)
 }, stop.swob , kolory)
 ```
 
@@ -110,8 +110,57 @@ probab_normal <- pnorm(v) - pnorm(u)
 cat("a) Prawdopodobieństwo w rozkładzie Studenta, df=9:", probab_student, "\n")
 cat("b) Prawdopodobieństwo w standardowym rozkładzie normalnym:", probab_normal, "\n")
 ```
+Dla chi2, df=10
+```{r}
+liczby.chi <- rchisq(n = 2, df = 10)
+liczby.chi
+```
 
 ```{r}
-
+wieksz <- liczby.chi[1]
+mniejsz <- liczby.chi[2]
 ```
+
+```{r}
+mniejsz
+```
+
+```{r}
+# dla studenta użyto stopni swobody z zadania 1/2
+prawd_student <- pt(wieksz, df = 9) - pt(mniejsz, df = 9)
+
+
+prawd_normal <- pnorm(wieksz) - pnorm(mniejsz)
+
+cat("a) Prawdopodobieństwo w rozkładzie Studenta, df=9:", prawd_student, "\n")
+cat("b) Prawdopodobieństwo w standardowym rozkładzie normalnym:", prawd_normal, "\n")
+```
+
+
+Dla F Snedecora df1 = 4, df2 = 16
+
+```{r}
+dwie.licz.snede <- rf(2, df1 = 4, df2 = 16)
+dwie.licz.snede
+```
+
+```{r}
+prawa <- dwie.licz.snede[1]
+lewa <- dwie.licz.snede[2]
+```
+
+```{r}
+lewa
+```
+
+```{r}
+# dla studenta użyto stopni swobody z zadania 1/2
+pr_student <- pt(prawa, df = 9) - pt(lewa, df = 9)
+
+pr_normal <- pnorm(prawa) - pnorm(lewa)
+
+cat("a) Prawdopodobieństwo w rozkładzie Studenta, df=9:", pr_student, "\n")
+cat("b) Prawdopodobieństwo w standardowym rozkładzie normalnym:", pr_normal, "\n")
+```
+
 
