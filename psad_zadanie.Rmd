@@ -6,6 +6,12 @@ output: html_notebook
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
 
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(readxl)
+```
+
+
 Zadanie 1
 ```{r}
 set.seed(120)
@@ -37,9 +43,91 @@ Zadanie 2
 qchisq(.99, df=6)
 ```
 Zadanie 3
+
+5. Exercise 6.4-14
+W celu poprawy opieki prenatalnej nad matką i dzieckiem przeprowadzono badanie mające na celu stwierdzenie, czy liczba odwiedzin pielęgniarskich wpływa na masę urodzeniową noworodka. W tym celu ważono noworodki, których mamy zostały odwiedzone przez pielęgniarki pięć lub mniej razy w okresie ciąży oraz  noworodki, których mamy były odwiedzane częściej. Czy intensywność opieki pielęgniarskiej wpływa na masę urodzeniową dziecka? 
+```{r}
+data <- read_excel('exercise_6_4_14_Hogg_Tanis.xls')
+head(data, 5)
+```
+```{r}
+print(data[['Pięć_lub_mniej']] * 28.35)
+```
+
+Masy noworodków podano w uncjach.
+
+```{r}
+str(data)
+```
+
+```{r}
+boxplot(data, main = "Masa noworodka vs liczba odwiedzin", ylabel = 'Masa noworodka - uncje')
+```
+Widzimy, że w grupie poniżej 5 odwiedzin dwoje noworodków ważyli dosyć mało, ale rząd wielkości nie budzi podejrzeń co do poprawności danych.
+
+
+
+```{r}
+var(data[['Pięć_lub_mniej']])
+```
+```{r}
+
+var(data[['Więcej_niż_pięć']])
+
+```
+
+Wariancje w grupach nie są równe.
 ```{r}
 
 ```
+
+
+```{r}
+# Adjusting the plotting area to display two plots side by side
+par(mfrow = c(1, 2))
+
+# Histogram of the first variable
+hist(data[['Pięć_lub_mniej']], col = "red", main = "Rozkład masy noworodków dla mniejszej liczby odwiedzin", xlab = "Masa - uncje", ylab = "Liczność")
+
+# Histogram of the second variable
+hist(data[['Więcej_niż_pięć']], col = "blue", main = "Rozkład masy noworodków dla większej liczby odwiedzin", xlab = "Masa - uncje", ylab = "Liczność")
+
+# Resetting the plotting area to default
+par(mfrow = c(1, 1))
+
+```
+
+
+
+```{r}
+shapiro.test(data[['Pięć_lub_mniej']])
+```
+
+
+
+Przy poziomie istotności 0.05 uznajemy, że masa noworodków przy liczbie odwiedzin 0-5 nie ma rozkładu normalnego.
+
+```{r}
+shapiro.test(data[['Więcej_niż_pięć']])
+```
+Ponieważ rozkład w grupie poniżej 5 odwiedzin nie jest normalny, a wariancje w porównywanych grupach
+nie są równe, użyjemy testu Wilcoxon zamiast testu T.
+
+
+```{r}
+
+```
+
+
+
+```{r}
+wilcox.test(data[['Pięć_lub_mniej']], data[['Więcej_niż_pięć']])
+```
+Brak podstaw do odrzucenia hipotezy, że obydwie grupy noworodków mają tę samą medianową masę.
+Test jest słaby i mamy mało obserwacji.
+Warto by powtórzyć test dla większej ilości obserwacji.
+
+
 
 Zadanie 4
 
