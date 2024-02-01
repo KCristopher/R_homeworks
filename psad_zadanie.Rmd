@@ -1,0 +1,92 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+Zadanie 1
+```{r}
+set.seed(120)
+
+
+```
+
+
+```{r}
+nums <- rnorm(n = 100, mean = 6, sd = 2)
+nums[1 : 5]
+```
+
+```{r}
+qqnorm(nums, col = "blue", xlab = "Kwantyle teoretyczne", ylab = "Kwantyle empiryczne", main='Wykres kwantyl-kwantyl')
+qqline(nums, col = "red", lty = 2)
+legend("topleft", legend = "Linia idealnego dopasowania kwantyli", col = "red", lty = 2)
+```
+
+```{r}
+shapiro.test(nums)
+```
+
+Brak podstaw do odrzucenia hipotezy, że rozkład danych jest normalny.
+
+Zadanie 2
+
+```{r}
+qchisq(.99, df=6)
+```
+Zadanie 3
+```{r}
+
+```
+
+Zadanie 4
+
+```{r}
+pt(1, df = 8) - pt(-0.5, df = 8)
+```
+
+
+Zadanie 5
+
+```{r}
+
+data1 <- rf(20, df1 = 4, df2 = 3)
+data2 <- rf(20, df1 = 4, df2 = 3)
+
+ks.test(data1, data2)
+
+```
+
+Brak podstaw do odrzucenia hipotezy, że rozkłady mają te same dystrybuanty, a więc możemy nadal myśleć, że mają ten sam rozkład, co zgadza się ze stanem faktycznym.
+
+Zadanie 6
+
+```{r}
+unif.nums <- runif(30, min = -40, max = 40)
+boxplot(unif.nums, main = "Kwantylowy rozkład losowych liczb", ylab = "Wielkość liczby")
+```
+
+Na podstawie wielkości liczb nie podejrzewamy występowania obserwacji odstających.
+
+Zadanie 7
+
+```{r}
+zwierzeta <- data.frame(
+  Nazwa = c("Muflon", "Lama", "Owca", "Koza", "Daniel"),
+  Liczba = c(6, 4, 13, 16, 4)
+)
+
+barplot(zwierzeta$Liczba, names.arg = zwierzeta$Nazwa, 
+        col = "blue", main = "Liczba zwierząt w zoo wg rodzaju zwierzęcia", 
+        xlab = "Rodzaj zwierzęcia", ylab = "Liczba zwierząt")
+
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
